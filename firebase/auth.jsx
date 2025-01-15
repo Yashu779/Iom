@@ -42,10 +42,10 @@ export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
-    console.log("Google User Signed In:", user);
+    // console.log("Google User Signed In:", user);
     return user; // Return Google user data
   } catch (error) {
-    console.error("Error with Google Sign-In:", error.message);
+    // console.error("Error with Google Sign-In:", error.message);
     return { error: error.message }; // Return error for UI handling
   }
 };

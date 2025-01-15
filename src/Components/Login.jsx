@@ -36,28 +36,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationError = validateForm();
-
+  
     if (validationError) {
       setError(validationError);
       console.log("Validation failed");
       return;
     }
-
+  
     try {
       if (isLogin) {
         // Attempt to log in
         const user = await logIn(email, password);
         if (user.error) {
-          // setError(user.error);
           console.log("Login failed:", user.error);
-          alert("User Details Not Availabel")
+          alert("User Details Not Available");
           return;
         }
         console.log("User logged in successfully");
         alert("Logged in successfully!");
-
-        // Navigate to buying-products after login
-        Navigate("/buying-products");
+        Navigate("/buying-products"); // Navigate after login
       } else {
         // Attempt to sign up
         const user = await signUp(email, password);
@@ -67,11 +64,12 @@ const Login = () => {
           return;
         }
         console.log("User signed up successfully");
-        alert("Account created successfully!");
-
-        // No navigation after signup
+        alert("Account created successfully! Redirecting to login...");
+  
+        // Automatically redirect to login
+        setIsLogin(true);
       }
-
+  
       // Reset form fields
       setEmail("");
       setPassword("");
@@ -80,17 +78,24 @@ const Login = () => {
       console.log("Error:", err.message);
     }
   };
+  
 
   const handleGoogleLogin = async () => {
     try {
       const user = await signInWithGoogle();
-      console.log("Google login successful", user);
-      alert(`Welcome, ${user.displayName || user.email}!`);
+      if (user) {
+        console.log("Google login successful", user);
+        // alert(`Welcome, ${user.displayName || user.email}!`);
+  
+        // Optional: Navigate to another page or handle the user object
+        Navigate("/buying-products");
+      }
     } catch (err) {
       setError(err.message);
       console.log("Google login error:", err.message);
     }
   };
+  
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen items-center bg-gray-100 p-8 justify-between">
